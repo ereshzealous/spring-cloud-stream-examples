@@ -1,0 +1,27 @@
+version: "3.5"
+
+services:
+  # Install zookeeper.
+  zookeeper:
+    container_name: zookeeper
+    image: zookeeper
+    ports:
+      - '2181:2181'
+
+  # Install kafka and create needed topics.
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka
+    hostname: kafka
+    ports:
+      - '9092:9092'
+      - '29092:29092'
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_HOST://kafka:29092
+      LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper

@@ -1,0 +1,22 @@
+server:
+  port: 9001
+
+spring:
+  cloud:
+    stream:
+      function:
+        definition: fizzBuzzProducer;fizzBuzzProcessor;fizzBuzzConsumer
+
+      bindings:
+        fizzBuzzProducer-out-0:
+          destination: numbers
+        fizzBuzzProcessor-in-0:
+          destination: numbers
+        fizzBuzzProcessor-out-0:
+          destination: fizz-buzz
+        fizzBuzzConsumer-in-0:
+          destination: fizz-buzz
+      kafka:
+        binder:
+          brokers: localhost:9092
+          auto-create-topics: true
