@@ -20,7 +20,6 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +37,7 @@ public class UserIndexSearchService {
 	private final HighLevelRestClient highLevelRestClient;
 	private final ObjectMapper objectMapper;
 
-	public WSUsersResponse searchMatchPhrase(String phrase, Integer offset, Integer limit) throws IOException {
+	public WSUsersResponse searchMatchPhrase(String phrase, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -50,7 +49,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse multiSearchQuery(String query, Integer offset, Integer limit, Boolean prefixPhraseEnabled) throws Exception {
+	public WSUsersResponse multiSearchQuery(String query, Integer offset, Integer limit, Boolean prefixPhraseEnabled) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -66,7 +65,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse queryKeywordTerm(String query, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse queryKeywordTerm(String query, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -78,7 +77,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse queryTerm(String query, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse queryTerm(String query, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -90,7 +89,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse queryTerms(List<String> queries, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse queryTerms(List<String> queries, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -102,7 +101,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse queryBoolWithMust(String profession, String mobileNumber, String maritalStatus, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse queryBoolWithMust(String profession, String mobileNumber, String maritalStatus, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -128,7 +127,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse queryBoolWithShould(String profession, String mobileNumber, String maritalStatus, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse queryBoolWithShould(String profession, String mobileNumber, String maritalStatus, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -145,7 +144,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse wildcardSearch(String query, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse wildcardSearch(String query, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -162,7 +161,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse regExpSearch(String query, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse regExpSearch(String query, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -175,7 +174,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse simpleQueryStringSearch(String query, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse simpleQueryStringSearch(String query, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -191,7 +190,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse searchIncomeRange(Integer lowerLimit, Integer upperLimit, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse searchIncomeRange(Integer lowerLimit, Integer upperLimit, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -217,7 +216,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse queryGeographyPoint(Double lon, Double lat, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse queryGeographyPoint(Double lon, Double lat, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();

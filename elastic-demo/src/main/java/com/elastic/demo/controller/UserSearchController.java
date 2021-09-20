@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ public class UserSearchController {
 	@GetMapping("/search/phrase")
 	public ResponseEntity<RestResponse> searchPhrase(@RequestParam("query") String query,
 	                                                 @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                 @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws IOException {
+	                                                 @RequestParam(value = "offset", defaultValue = "0") Integer offset){
 		return ResponseEntity.ok(userIndexSearchService.searchMatchPhrase(query, offset, limit));
 	}
 
@@ -41,22 +40,22 @@ public class UserSearchController {
 
 	@GetMapping("/search/keyword/term")
 	public ResponseEntity<RestResponse> searchKeywordTerm(@RequestParam("query") String query,
-	                                                @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                      @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+	                                                      @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.queryKeywordTerm(query, offset, limit));
 	}
 
 	@GetMapping("/search/term")
 	public ResponseEntity<RestResponse> searchTerm(@RequestParam("query") String query,
 	                                               @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                               @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                               @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.queryTerm(query, offset, limit));
 	}
 
 	@GetMapping("/search/terms")
 	public ResponseEntity<RestResponse> searchTerms(@RequestParam("query") List<String> queries,
-	                                               @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                               @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+	                                                @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.queryTerms(queries, offset, limit));
 	}
 
@@ -65,37 +64,37 @@ public class UserSearchController {
 	                                                @RequestParam("mobileNumber") String mobileNumber,
 	                                                @RequestParam("maritalStatus") String maritalStatus,
 	                                                @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.queryBoolWithMust(profession, mobileNumber, maritalStatus, offset, limit));
 	}
 
 	@GetMapping("/search/should/bool")
 	public ResponseEntity<RestResponse> searchBoolShould(@RequestParam("profession") String profession,
-	                                                @RequestParam("mobileNumber") String mobileNumber,
-	                                                @RequestParam("maritalStatus") String maritalStatus,
-	                                                @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                     @RequestParam("mobileNumber") String mobileNumber,
+	                                                     @RequestParam("maritalStatus") String maritalStatus,
+	                                                     @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+	                                                     @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.queryBoolWithShould(profession, mobileNumber, maritalStatus, offset, limit));
 	}
 
 	@GetMapping("/search/wildcard")
 	public ResponseEntity<RestResponse> searchBoolShould(@RequestParam("query") String query,
 	                                                     @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                     @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                     @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.wildcardSearch(query, offset, limit));
 	}
 
 	@GetMapping("/search/regexp")
 	public ResponseEntity<RestResponse> searchRegularExpression(@RequestParam("query") String query,
-	                                                     @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                     @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                            @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+	                                                            @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.regExpSearch(query, offset, limit));
 	}
 
 	@GetMapping("/search/simple")
 	public ResponseEntity<RestResponse> searchSimpleQuery(@RequestParam("query") String query,
-	                                                            @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                            @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                      @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+	                                                      @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.simpleQueryStringSearch(query, offset, limit));
 	}
 
@@ -103,15 +102,15 @@ public class UserSearchController {
 	public ResponseEntity<RestResponse> searchIncomeRange(@RequestParam("lowerLimit") Integer lowerLimit,
 	                                                      @RequestParam("upperLimit") Integer upperLimit,
 	                                                      @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                      @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                      @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.searchIncomeRange(lowerLimit, upperLimit, offset, limit));
 	}
 
 	@GetMapping("/search/date/range")
 	public ResponseEntity<RestResponse> searchDateRange(@RequestParam("fromDate") String fromDate,
-	                                                      @RequestParam("toDate") String toDate,
-	                                                      @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                      @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                    @RequestParam("toDate") String toDate,
+	                                                    @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+	                                                    @RequestParam(value = "offset", defaultValue = "0") Integer offset){
 		return ResponseEntity.ok(userIndexSearchService.searchDateRange(fromDate, toDate, offset, limit));
 	}
 
@@ -119,7 +118,7 @@ public class UserSearchController {
 	public ResponseEntity<RestResponse> searchGeoDistance(@RequestParam("lon") Double longitude,
 	                                                      @RequestParam("lat") Double latitude,
 	                                                      @RequestParam(value = "limit", defaultValue = "10") Integer limit,
-	                                                      @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
+	                                                      @RequestParam(value = "offset", defaultValue = "0") Integer offset) {
 		return ResponseEntity.ok(userIndexSearchService.queryGeographyPoint(longitude, latitude, offset, limit));
 	}
 
