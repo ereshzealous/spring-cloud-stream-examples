@@ -5,3 +5,8 @@ spring:
     allow-bean-definition-overriding: true
 server:
   port: 9001
+
+logging:
+  level:
+    org.springframework.data.elasticsearch.core: DEBUG
+    org.elasticsearch.client: DEBUG
