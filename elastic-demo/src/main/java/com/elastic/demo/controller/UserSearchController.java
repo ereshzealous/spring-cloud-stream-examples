@@ -1,6 +1,7 @@
 package com.elastic.demo.controller;
 
 import com.elastic.demo.model.RestResponse;
+import com.elastic.demo.model.WSMultiIndexResponse;
 import com.elastic.demo.service.UserIndexSearchService;
 import lombok.RequiredArgsConstructor;
 
@@ -120,5 +121,10 @@ public class UserSearchController {
 	                                                      @RequestParam(value = "limit", defaultValue = "10") Integer limit,
 	                                                      @RequestParam(value = "offset", defaultValue = "0") Integer offset) throws Exception {
 		return ResponseEntity.ok(userIndexSearchService.queryGeographyPoint(longitude, latitude, offset, limit));
+	}
+
+	@GetMapping("/search/multi/indices")
+	public ResponseEntity<WSMultiIndexResponse> searchMultiIndices(@RequestParam("id") String userId) {
+		return ResponseEntity.ok(userIndexSearchService.multiIndexSearch(userId));
 	}
 }

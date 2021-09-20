@@ -1,11 +1,15 @@
 package com.elastic.demo.service;
 
 import com.elastic.demo.entity.User;
+import com.elastic.demo.entity.UserAddress;
+import com.elastic.demo.model.WSMultiIndexResponse;
 import com.elastic.demo.model.WSUsersResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.elasticsearch.action.search.MultiSearchRequest;
+import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -202,7 +206,7 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
-	public WSUsersResponse searchDateRange(String fromDate, String toDate, Integer offset, Integer limit) throws Exception {
+	public WSUsersResponse searchDateRange(String fromDate, String toDate, Integer offset, Integer limit) {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.indices("user");
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -228,6 +232,27 @@ public class UserIndexSearchService {
 		return extractUserResponse(searchResponse);
 	}
 
+	public WSMultiIndexResponse multiIndexSearch(String userId) {
+		MultiSearchRequest multiSearchRequest = new MultiSearchRequest();
+
+		SearchRequest userIndexSearch = new SearchRequest();
+		userIndexSearch.indices("user");
+		SearchSourceBuilder userIndexSourceBuilder = new SearchSourceBuilder();
+		userIndexSourceBuilder.query(QueryBuilders.matchQuery("id.keyword", userId));
+		userIndexSearch.source(userIndexSourceBuilder);
+		multiSearchRequest.add(userIndexSearch);
+
+		SearchRequest userAddressIndexSearch = new SearchRequest();
+		userAddressIndexSearch.indices("user_address");
+		SearchSourceBuilder userAddressIndexSourceBuilder = new SearchSourceBuilder();
+		userAddressIndexSourceBuilder.query(QueryBuilders.matchQuery("userId.keyword", userId));
+		userAddressIndexSearch.source(userAddressIndexSourceBuilder);
+		multiSearchRequest.add(userAddressIndexSearch);
+
+		MultiSearchResponse response = highLevelRestClient.postMSearch(multiSearchRequest);
+		return extractMSearchResponse(response);
+	}
+
 	private WSUsersResponse extractUserResponse(SearchResponse searchResponse) {
 		WSUsersResponse response = new WSUsersResponse();
 		SearchHits searchHits = searchResponse.getHits();
@@ -238,6 +263,23 @@ public class UserIndexSearchService {
 			users.add(objectMapper.convertValue(hit.getSourceAsMap(), User.class));
 		}
 		response.setUsers(users);
+		return response;
+	}
+
+	private WSMultiIndexResponse extractMSearchResponse(MultiSearchResponse searchResponse) {
+		WSMultiIndexResponse response = new WSMultiIndexResponse();
+		SearchResponse userSearchResponse = searchResponse.getResponses()[0].getResponse();
+		SearchHits userSearchHits = userSearchResponse.getHits();
+		SearchHit userSearchHit = userSearchHits.getHits()[0];
+		response.setUser(objectMapper.convertValue(userSearchHit.getSourceAsMap(), User.class));
+
+		SearchResponse userAddressSearchResponse = searchResponse.getResponses()[1].getResponse();
+		SearchHits userAddressSearchHits = userAddressSearchResponse.getHits();
+		List<UserAddress> userAddresses = new ArrayList<>();
+		for (SearchHit hit : userAddressSearchHits) {
+			userAddresses.add(objectMapper.convertValue(hit.getSourceAsMap(), UserAddress.class));
+		}
+		response.setUserAddresses(userAddresses);
 		return response;
 	}
 }
