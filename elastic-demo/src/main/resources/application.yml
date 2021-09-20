@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: elastic-demo
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 9001
