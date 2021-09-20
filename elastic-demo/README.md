@@ -18,6 +18,8 @@ The elastic search is in 9200 and kibana on 5601 port, To go to kibana developer
 ### Open Api Endpoints
 I have enabled Open-Api endpoints. Please visit http://localhost:9001/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
 
+![Endpoints](images/1.png)
+
 You can find an POST API to load data into local elastic search instance. The api generated Random data and adds into elastic search.
 
 Note: Before that create indices in elastic search for proper data storage as per schema defined.
